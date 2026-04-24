@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto Craft — We Build What Moves</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Geist+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --black: #0a0a0a;
+        --white: #f5f5f0;
+        --off: #e8e8e2;
+        --mid: #aaaaaa;
+        --accent: #0a0a0a;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--white);
+        color: var(--black);
+        font-family: "Geist Mono", monospace;
+        overflow-x: hidden;
+        cursor: crosshair;
+      }
+
+      /* ─── NAV ─── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 28px 60px;
+        background: var(--white);
+        border-bottom: 1px solid #d0d0c8;
+        mix-blend-mode: normal;
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-weight: 900;
+        font-size: 1.1rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .nav-links {
+        display: flex;
+        gap: 40px;
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--black);
+      }
+
+      /* ─── HERO ─── */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 160px 60px 80px;
+        border-bottom: 1px solid #d0d0c8;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Playfair Display", serif;
+        font-size: clamp(120px, 20vw, 280px);
+        font-weight: 900;
+        color: transparent;
+        -webkit-text-stroke: 1px #e0e0d8;
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+        animation: floatBg 8s ease-in-out infinite;
+      }
+      @keyframes floatBg {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          transform: translate(-50%, -52%) scale(1.01);
+        }
+      }
+      .hero-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--mid);
+        margin-bottom: 32px;
+      }
+      .hero-headline {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(52px, 9vw, 130px);
+        font-weight: 900;
+        line-height: 0.92;
+        letter-spacing: -0.02em;
+        max-width: 900px;
+      }
+      .hero-headline em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .hero-sub-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-top: 64px;
+      }
+      .hero-subtext {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        line-height: 1.9;
+        color: var(--mid);
+        text-transform: uppercase;
+        max-width: 280px;
+      }
+      .hero-cta {
+        display: inline-block;
+        background: var(--black);
+        color: var(--white);
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 18px 40px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        border: 1px solid var(--black);
+      }
+      .hero-cta:hover {
+        background: var(--white);
+        color: var(--black);
+      }
+
+      /* ─── MARQUEE ─── */
+      .marquee-wrap {
+        overflow: hidden;
+        border-bottom: 1px solid #d0d0c8;
+        background: var(--black);
+        padding: 20px 0;
+      }
+      .marquee-track {
+        display: flex;
+        gap: 0;
+        animation: marquee 22s linear infinite;
+        white-space: nowrap;
+      }
+      .marquee-item {
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--white);
+        padding: 0 48px;
+        opacity: 0.7;
+      }
+      .marquee-dot {
+        color: var(--white);
+        opacity: 0.3;
+        padding: 0 4px;
+        font-size: 0.5rem;
+      }
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ─── SERVICES ─── */
+      .services {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-bottom: 1px solid #d0d0c8;
+      }
+      .service-card {
+        padding: 80px 52px;
+        border-right: 1px solid #d0d0c8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 420px;
+        transition: background 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .service-card:last-child {
+        border-right: none;
+      }
+      .service-card:hover {
+        background: var(--black);
+      }
+      .service-card:hover .service-num,
+      .service-card:hover .service-title,
+      .service-card:hover .service-desc,
+      .service-card:hover .service-arrow {
+        color: var(--white);
+      }
+      .service-card:hover .service-line {
+        background: #333;
+      }
+
+      .service-num {
+        font-size: 0.55rem;
+        letter-spacing: 0.2em;
+        color: var(--mid);
+        text-transform: uppercase;
+        transition: color 0.3s;
+      }
+      .service-line {
+        width: 40px;
+        height: 1px;
+        background: #d0d0c8;
+        margin: 24px 0;
+        transition: background 0.3s;
+      }
+      .service-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(28px, 3vw, 44px);
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 28px;
+        transition: color 0.3s;
+      }
+      .service-desc {
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+        line-height: 2;
+        color: var(--mid);
+        text-transform: uppercase;
+        flex: 1;
+        transition: color 0.3s;
+      }
+      .service-arrow {
+        margin-top: 40px;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+        transition: color 0.3s;
+      }
+
+      /* ─── MANIFESTO ─── */
+      .manifesto {
+        padding: 140px 60px;
+        border-bottom: 1px solid #d0d0c8;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 80px;
+        align-items: start;
+      }
+      .manifesto-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--mid);
+        padding-top: 12px;
+      }
+      .manifesto-body {
+      }
+      .manifesto-big {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(36px, 5vw, 72px);
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin-bottom: 48px;
+      }
+      .manifesto-big em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .manifesto-lines {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .manifesto-line {
+        display: flex;
+        align-items: baseline;
+        gap: 20px;
+        border-top: 1px solid #d0d0c8;
+        padding-top: 20px;
+      }
+      .manifesto-line-num {
+        font-size: 0.5rem;
+        letter-spacing: 0.2em;
+        color: var(--mid);
+        min-width: 28px;
+      }
+      .manifesto-line-text {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        line-height: 2;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+
+      /* ─── TAGLINES ─── */
+      .taglines {
+        background: var(--black);
+        color: var(--white);
+        padding: 120px 60px;
+        border-bottom: 1px solid #222;
+      }
+      .taglines-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .tagline-item {
+        padding: 56px 0;
+        border-bottom: 1px solid #1e1e1e;
+        border-right: 1px solid #1e1e1e;
+      }
+      .tagline-item:nth-child(even) {
+        border-right: none;
+        padding-left: 56px;
+      }
+      .tagline-item:nth-child(odd) {
+        padding-right: 56px;
+      }
+      .tagline-item:nth-last-child(-n + 2) {
+        border-bottom: none;
+      }
+
+      .tagline-quote {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(22px, 2.5vw, 38px);
+        font-weight: 900;
+        line-height: 1.15;
+        margin-bottom: 20px;
+      }
+      .tagline-quote em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .tagline-attr {
+        font-size: 0.5rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #555;
+      }
+
+      /* ─── TEAM ─── */
+      .team {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-bottom: 1px solid #d0d0c8;
+      }
+      .team-intro {
+        padding: 100px 60px;
+        border-right: 1px solid #d0d0c8;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .team-intro-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+      .team-intro-heading {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(40px, 5.5vw, 80px);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+      }
+      .team-intro-heading em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .team-intro-note {
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--mid);
+        line-height: 2;
+      }
+
+      .team-cards {
+        display: flex;
+        flex-direction: column;
+      }
+      .team-card {
+        padding: 56px 60px;
+        border-bottom: 1px solid #d0d0c8;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .team-card:last-child {
+        border-bottom: none;
+      }
+      .team-role {
+        font-size: 0.5rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+        margin-bottom: 12px;
+      }
+      .team-name {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(24px, 3vw, 40px);
+        font-weight: 900;
+        line-height: 1;
+      }
+      .team-contact {
+        text-align: right;
+      }
+      .team-contact-label {
+        font-size: 0.5rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+        margin-bottom: 6px;
+      }
+      .team-phone {
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        font-weight: 400;
+      }
+      .team-phone a {
+        text-decoration: none;
+        color: var(--black);
+        transition: color 0.2s;
+      }
+      .team-phone a:hover {
+        color: var(--mid);
+      }
+
+      /* ─── LOCATION ─── */
+      .location {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        border-bottom: 1px solid #d0d0c8;
+      }
+      .location-text {
+        padding: 100px 60px;
+        border-right: 1px solid #d0d0c8;
+      }
+      .location-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--mid);
+        margin-bottom: 48px;
+      }
+      .location-city {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(56px, 9vw, 120px);
+        font-weight: 900;
+        line-height: 0.9;
+        letter-spacing: -0.03em;
+      }
+      .location-city em {
+        font-style: italic;
+        font-weight: 400;
+        display: block;
+      }
+      .location-detail {
+        margin-top: 48px;
+        font-size: 0.55rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--mid);
+        line-height: 2.2;
+      }
+
+      .location-cta-box {
+        padding: 100px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .location-cta-label {
+        font-size: 0.55rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--mid);
+      }
+      .location-cta-big {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(22px, 2.8vw, 40px);
+        font-weight: 900;
+        line-height: 1.15;
+      }
+      .location-cta-big em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .location-btn {
+        display: inline-block;
+        border: 1px solid var(--black);
+        padding: 16px 32px;
+        font-size: 0.55rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--black);
+        transition:
+          background 0.2s,
+          color 0.2s;
+        align-self: flex-start;
+      }
+      .location-btn:hover {
+        background: var(--black);
+        color: var(--white);
+      }
+
+      /* ─── FOOTER ─── */
+      footer {
+        background: var(--black);
+        color: var(--white);
+        padding: 60px 60px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .footer-left {
+      }
+      .footer-brand {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(36px, 5vw, 72px);
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .footer-brand em {
+        font-style: italic;
+        font-weight: 400;
+      }
+      .footer-tagline {
+        font-size: 0.5rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: #555;
+        margin-top: 16px;
+      }
+      .footer-right {
+        text-align: right;
+      }
+      .footer-copy {
+        font-size: 0.5rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #444;
+        line-height: 2.2;
+      }
+
+      /* ─── FADE IN ─── */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          padding: 20px 24px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .hero {
+          padding: 120px 24px 60px;
+        }
+        .hero-sub-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 28px;
+        }
+        .services {
+          grid-template-columns: 1fr;
+        }
+        .service-card {
+          border-right: none;
+          border-bottom: 1px solid #d0d0c8;
+        }
+        .manifesto {
+          grid-template-columns: 1fr;
+          gap: 32px;
+          padding: 80px 24px;
+        }
+        .taglines {
+          padding: 80px 24px;
+        }
+        .taglines-grid {
+          grid-template-columns: 1fr;
+        }
+        .tagline-item {
+          border-right: none !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+        .team {
+          grid-template-columns: 1fr;
+        }
+        .team-intro {
+          border-right: none;
+          border-bottom: 1px solid #d0d0c8;
+          padding: 60px 24px;
+        }
+        .team-card {
+          padding: 40px 24px;
+        }
+        .location {
+          grid-template-columns: 1fr;
+        }
+        .location-text {
+          border-right: none;
+          border-bottom: 1px solid #d0d0c8;
+          padding: 60px 24px;
+        }
+        .location-cta-box {
+          padding: 60px 24px;
+        }
+        footer {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 40px;
+          padding: 48px 24px 32px;
+        }
+        .footer-right {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <div class="nav-logo">Auto Craft</div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg-text">AC</div>
+      <p class="hero-tag fade-in">
+        Est. Indrapuram, Ghaziabad &nbsp;·&nbsp; SaaS · AI · Web
+      </p>
+      <h1 class="hero-headline fade-in">
+        We Build<br /><em>Things That</em><br />Actually Work.
+      </h1>
+      <div class="hero-sub-row fade-in">
+        <p class="hero-subtext">
+          Automations that breathe.<br />
+          Websites that convert.<br />
+          Software that scales.
+        </p>
+        <a class="hero-cta" href="#contact">Start a Project</a>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">SaaS Development</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">AI Automations</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Website Building</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Growth Systems</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Auto Craft</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Indrapuram · Ghaziabad</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">SaaS Development</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">AI Automations</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Website Building</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Growth Systems</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Auto Craft</span
+        ><span class="marquee-dot">◆</span>
+        <span class="marquee-item">Indrapuram · Ghaziabad</span
+        ><span class="marquee-dot">◆</span>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="service-card fade-in">
+        <div>
+          <div class="service-num">01 / Service</div>
+          <div class="service-line"></div>
+          <div class="service-title">SaaS<br />Products</div>
+        </div>
+        <div>
+          <p class="service-desc">
+            Full-stack software built to serve thousands. We architect, design,
+            and ship products that don't just work — they win.
+          </p>
+          <div class="service-arrow">→ Explore</div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div>
+          <div class="service-num">02 / Service</div>
+          <div class="service-line"></div>
+          <div class="service-title">AI<br />Automations</div>
+        </div>
+        <div>
+          <p class="service-desc">
+            Intelligent workflows that eliminate grunt work. Your team focuses
+            on what matters. We automate the rest.
+          </p>
+          <div class="service-arrow">→ Explore</div>
+        </div>
+      </div>
+      <div class="service-card fade-in">
+        <div>
+          <div class="service-num">03 / Service</div>
+          <div class="service-line"></div>
+          <div class="service-title">Web<br />Presence</div>
+        </div>
+        <div>
+          <p class="service-desc">
+            Websites that look like art and perform like machines. First
+            impressions are everything — we make yours unforgettable.
+          </p>
+          <div class="service-arrow">→ Explore</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto" id="about">
+      <div class="manifesto-label fade-in">Our Way</div>
+      <div class="manifesto-body fade-in">
+        <h2 class="manifesto-big">
+          We work to win<br /><em>hearts,</em><br />not big banks.
+        </h2>
+        <div class="manifesto-lines">
+          <div class="manifesto-line">
+            <span class="manifesto-line-num">I.</span>
+            <span class="manifesto-line-text"
+              >We don't chase vanity metrics. We chase outcomes that matter to
+              real people.</span
+            >
+          </div>
+          <div class="manifesto-line">
+            <span class="manifesto-line-num">II.</span>
+            <span class="manifesto-line-text"
+              >Every line of code is a promise. We keep them all.</span
+            >
+          </div>
+          <div class="manifesto-line">
+            <span class="manifesto-line-num">III.</span>
+            <span class="manifesto-line-text"
+              >Small teams, sharp minds, zero compromises.</span
+            >
+          </div>
+          <div class="manifesto-line">
+            <span class="manifesto-line-num">IV.</span>
+            <span class="manifesto-line-text"
+              >We build for the long run, not the next funding round.</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAGLINES -->
+    <section class="taglines">
+      <div class="taglines-grid">
+        <div class="tagline-item fade-in">
+          <div class="tagline-quote">
+            Built lean.<br /><em>Delivered clean.</em>
+          </div>
+          <div class="tagline-attr">On Quality</div>
+        </div>
+        <div class="tagline-item fade-in">
+          <div class="tagline-quote">
+            Your vision,<br /><em>our obsession.</em>
+          </div>
+          <div class="tagline-attr">On Partnership</div>
+        </div>
+        <div class="tagline-item fade-in">
+          <div class="tagline-quote">
+            We don't do<br /><em>good enough.</em>
+          </div>
+          <div class="tagline-attr">On Standards</div>
+        </div>
+        <div class="tagline-item fade-in">
+          <div class="tagline-quote">
+            Automate the<br /><em>ordinary. Own</em><br />the extraordinary.
+          </div>
+          <div class="tagline-attr">On AI</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team" id="team">
+      <div class="team-intro fade-in">
+        <div class="team-intro-label">The People</div>
+        <div class="team-intro-heading">
+          Crafted<br />by<br /><em>Builders.</em>
+        </div>
+        <p class="team-intro-note">
+          Two founders.<br />
+          One mission.<br />
+          No fluff.
+        </p>
+      </div>
+      <div class="team-cards">
+        <div class="team-card fade-in">
+          <div>
+            <div class="team-role">Founder</div>
+            <div class="team-name">Dharmendra<br />Yadav</div>
+          </div>
+          <div class="team-contact">
+            <div class="team-contact-label">Direct Line</div>
+            <div class="team-phone">
+              <a href="tel:+916306450212">+91 63064 50212</a>
+            </div>
+          </div>
+        </div>
+        <div class="team-card fade-in">
+          <div>
+            <div class="team-role">Co-Founder</div>
+            <div class="team-name">Ganesh<br />Sharma</div>
+          </div>
+          <div class="team-contact">
+            <div class="team-contact-label">Direct Line</div>
+            <div class="team-phone">
+              <a href="tel:+918802130983">+91 88021 30983</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCATION / CONTACT -->
+    <section class="location" id="contact">
+      <div class="location-text fade-in">
+        <div class="location-label">Headquarters</div>
+        <div class="location-city">Indra<em>puram.</em></div>
+        <div class="location-detail">
+          Indrapuram, Ghaziabad<br />
+          Uttar Pradesh, India<br />
+          <br />
+          dharmendra — 6306450212<br />
+          ganesh — 8802130983
+        </div>
+      </div>
+      <div class="location-cta-box fade-in">
+        <div class="location-cta-label">Ready?</div>
+        <div class="location-cta-big">
+          Let's build something<br /><em>worth talking about.</em>
+        </div>
+        <a class="location-btn" href="tel:+916306450212">Call Us Now →</a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-left">
+        <div class="footer-brand">Auto<em>Craft</em></div>
+        <div class="footer-tagline">
+          We build what moves. — Indrapuram, Ghaziabad.
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-copy">
+          SaaS · AI Automations · Websites<br />
+          © 2025 Auto Craft<br />
+          All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Intersection observer for fade-ins
+      const els = document.querySelectorAll(".fade-in");
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              setTimeout(() => e.target.classList.add("visible"), i * 80);
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      els.forEach((el) => obs.observe(el));
+    </script>
+  </body>
+</html>
